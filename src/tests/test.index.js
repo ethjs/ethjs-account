@@ -7,12 +7,33 @@ const privateToAccount = require('../index.js').privateToAccount;
 const privateToPublic = require('../index.js').privateToPublic;
 const publicToAddress = require('../index.js').publicToAddress;
 const crypto = require('crypto');
-const ethereumUtil = require('ethereumjs-util');
+const ethUtil = require('ethereumjs-util');
+const SandboxedModule = require('sandboxed-module');
+
+SandboxedModule.registerBuiltInSourceTransformer('istanbul');
+const invalidGetAddress = SandboxedModule.require('../index.js', {
+  requires: {
+    './getChecksumAddress.js': (addr) => addr + 1,
+  },
+  singleOnly: true,
+}).getAddress;
 
 describe('ethjs-account', () => {
   describe('privateToAccount', () => {
     it('should construct properly', () => {
       assert.equal(typeof privateToAccount, 'function');
+    });
+
+    it('should be the same as ethereumjs-util', () => {
+      const privateKey = '0xccb36826fbd5192c10bba496af42906a7e3b91f87a0ae803e79113fa88c5432c';
+      const accountTest = privateToAccount(privateKey);
+      const publicKey = new Buffer(accountTest.publicKey.slice(2), 'hex');
+      const address = accountTest.address.toLowerCase();
+
+      assert.deepEqual(publicKey, privateToPublic(privateKey));
+      assert.equal(address.toLowerCase(), `0x${ethUtil.privateToAddress(new Buffer(privateKey.slice(2), 'hex')).toString('hex')}`);
+      assert.deepEqual(publicKey, ethUtil.privateToPublic(new Buffer(privateKey.slice(2), 'hex')));
+      assert.equal(publicToAddress(publicKey).toLowerCase(), `0x${ethUtil.publicToAddress(accountTest.publicKey, true).toString('hex')}`);
     });
 
     it('should throw under invalid conditions', () => {
@@ -57,6 +78,13 @@ describe('ethjs-account', () => {
     it('should construct properly', () => {
       assert.equal(typeof publicToAddress, 'function');
       assert.equal(typeof publicToAddress(privateToPublic(sha3('jksfksf'))), 'string');
+    });
+
+    it('should be the same as ethereumjs-util', () => {
+      const accountTest = privateToAccount(sha3('kjsdfkjfkjsf'));
+      const publicKey = new Buffer(accountTest.publicKey.slice(2), 'hex');
+
+      assert.equal(publicToAddress(publicKey).toLowerCase(), `0x${ethUtil.publicToAddress(accountTest.publicKey, true).toString('hex')}`);
     });
 
     it('should throw under invalid conditions', () => {
@@ -135,7 +163,7 @@ describe('ethjs-account', () => {
   describe('test checkSum address, and getAddress', () => {
     it('ethers getAddress should equal official toChecksumAddress', () => {
       function testAddress(address) {
-        const official = ethereumUtil.toChecksumAddress(address);
+        const official = ethUtil.toChecksumAddress(address);
         const ethers = getAddress(address);
         assert.equal(ethers, official, 'wrong address');
       }
@@ -145,6 +173,12 @@ describe('ethjs-account', () => {
       for (var i = 0; i < 10000; i++) { // eslint-disable-line
         testAddress(randomHexString(20));
       }
+    });
+
+    it('should throw as invalid get checksum address (checksum error)', () => {
+      assert.throw(() => {
+        invalidGetAddress('0xaB41D5688Facc5EB21aD86098BA230D23Cde0E31');
+      }, Error);
     });
 
     it('should throw as invalid checksum', () => {

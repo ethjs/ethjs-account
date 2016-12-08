@@ -26,7 +26,7 @@ console.log(generate('892h@fs8sk^2h8s8shfs.jk39hsoi@hohskd..'));
 
 ## API Design
 
-### .generate
+### generate
 
 [index.js:ethjs-account](../../../blob/master/src/index.js "Source code on GitHub")
 
@@ -51,6 +51,116 @@ console.log(generate('892h@fs8sk^2h8s8shfs.jk39hsoi@hohskd..'));
 }
 */
 ```
+
+### getAddress
+
+[index.js:ethjs-account](../../../blob/master/src/index.js "Source code on GitHub")
+
+Intakes a public key buffer object, outputs an Ethereum 20 byte address
+
+**Parameters**
+
+- `publicKey` **Object** public key buffer object
+
+Result output an Ethereum 20 byte address **String**.
+
+```js
+const getAddress = require('ethjs-account').getAddress;
+
+console.log(getAddress(<Buffer instance>));
+
+/* result '0x......' */
+```
+
+### getChecksumAddress
+
+[getChecksumAddress.js:ethjs-account](../../../blob/master/src/index.js "Source code on GitHub")
+
+Intakes an address, outputs a checksum address.
+
+**Parameters**
+
+- `address` **String** a single Ethereum address as a 20 byte hex string
+
+Result output checksum address **String**.
+
+```js
+const getChecksumAddress = require('ethjs-account').getChecksumAddress;
+
+console.log(getChecksumAddress('0x.....'));
+
+/* result 0x..... */
+```
+
+### privateToPublic
+
+[index.js:ethjs-account](../../../blob/master/src/index.js "Source code on GitHub")
+
+Intakes a single private key, outputs a public key Buffer instance.
+
+**Parameters**
+
+- `privateKey` **String** a single 32 byte hex string (with hex prefix).
+
+Result output public key Buffer instance **Object**.
+
+```js
+const privateToPublic = require('ethjs-account').privateToPublic;
+
+console.log(privateToPublic(sha3('892h@fs8sk^2h8s8shfs.jk39hsoi@hohskd..')));
+
+/* result <Buffer ...> */
+```
+
+### publicToAddress
+
+[index.js:ethjs-account](../../../blob/master/src/index.js "Source code on GitHub")
+
+Intakes a single public key instance, outputs an Ethereum standard 20 byte hex string address.
+
+**Parameters**
+
+- `publicKey` **Object** a public key buffer instance object
+
+Result output Ethereum standard 20 byte checksum address **String**.
+
+Note, the address exported is the checksum address, `.toLowerCase` when using with modules that do not support the casing mixture.
+
+```js
+const publicToAddress = require('ethjs-account').publicToAddress;
+
+console.log(publicToAddress(<Buffer instance>));
+
+// result '0x......'
+```
+
+### privateToAccount
+
+[index.js:ethjs-account](../../../blob/master/src/index.js "Source code on GitHub")
+
+Intakes a single private key, outputs an account object containing three hex strings, `publicKey`, `privateKey` and `address`.
+
+**Parameters**
+
+- `privateKey` **String** a single 32 byte private key string (hex prefixed).
+
+Result output account **Object**.
+
+```js
+const privateToAccount = require('ethjs-account').privateToAccount;
+
+console.log(privateToAccount(sha3('892h@fs8sk^2h8s8shfs.jk39hsoi@hohskd..')));
+
+/* result
+{
+  address: '0x...',
+  privateKey: '0x...',
+  publicKey: '0x....',
+}
+*/
+```
+
+Note, the address exported is the checksum address, `.toLowerCase` when using with modules that do not support the casing mixture.
 
 ## A Note on Entropy and Account Safety
 
@@ -83,6 +193,7 @@ https://polyfill.io/
 
 ## Latest Webpack Figures
 
+```
 Hash: ab378ace2dcbcdc84923                                                            
 Version: webpack 2.1.0-beta.15
 Time: 1041ms
@@ -92,9 +203,6 @@ ethjs-account.js.map  385 kB       0  [emitted]  main
   [37] multi main 28 bytes {0} [built]
     + 37 hidden modules
 
-> ethjs-account@0.1.0 build:umd:min /home/nick/github/ethjs-account
-> cross-env BABEL_ENV=commonjs NODE_ENV=production webpack --config ./internals/webpack/webpack.config.js --progress
-
 Hash: f6b69ff438836239c7a6                                                            
 Version: webpack 2.1.0-beta.15
 Time: 4124ms
@@ -102,7 +210,7 @@ Time: 4124ms
 ethjs-account.min.js  164 kB       0  [emitted]  main
   [37] multi main 28 bytes {0} [built]
     + 37 hidden modules
-
+```
 
 ## Other Awesome Modules, Tools and Frameworks
 

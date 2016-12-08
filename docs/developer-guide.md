@@ -89,6 +89,10 @@ After build staging it is the `lib` folder which actually gets published to NPM.
 Read more about webpack here:
 https://github.com/webpack/docs
 
+## Testing ethereumjs
+
+This module is tested against ethereumjs-util.
+
 ## NPM/Node Version Requirements
 
 `ethjs` requires you have:

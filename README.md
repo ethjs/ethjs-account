@@ -61,9 +61,15 @@ console.log(generate('892h@fsdf11ks8sk^2h8s8shfs.jk39hsoi@hohskd'));
 */
 ```
 
+Note, the address exported is the mix case checksum.
+
 ## About
 
-This module is meant to help in the generation of Ethereum accounts. It serves as a very simple module to generate a valid private key, public key and Ethereum address, given a value of entropy. Good entropy generation is critical for safe Ethereum account creation. Please see the `user-guide` for more details.
+This module is meant to aid in the management and generation of Ethereum account keys. It is still pending review. Entropy generation is handled by a combination of sha3 hashing, crypto random bytes and provided entropy salt. It is up the developer to ensure good entropy is generated for the accounts.
+
+This module contains methods to convert private keys into Buffer public keys, and Buffer public keys into Ethereum addresses. The sha3 method is exposed as it is needed for key generation.
+
+See the `user-guide` for more details on good entropy generation, and other module information.
 
 ## Method API
 
@@ -73,8 +79,8 @@ getAddress           <Function (String) : (String)>
 getChecksumAddress   <Function (String) : (String)>
 sha3                 <Function (String, Boolean) : (String)>
 privateToPublic      <Function (String) : (Object)>
-privateToAccount     <Function (String) : (Object)>
 publicToAddress      <Function (Object) : (String)>
+privateToAccount     <Function (String) : (Object)>
 ```
 
 ## Contributing
@@ -138,6 +144,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-## Original Port Author
+## Original Port Checksum/getAddress Author
 
 Richard Moore <me@ricmoo.com>
