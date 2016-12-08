@@ -37,7 +37,7 @@
 
 <br />
 
-A simple module for generating Ethereum accounts.
+A simple Ethereum account utility module.
 
 ## Install
 
@@ -50,7 +50,7 @@ npm install --save ethjs-account
 ```js
 const generate = require('ethjs-account').generate;
 
-console.log(generate('892h@fs8sk^2h8s8shfs.jk39hsoi@hohskd..'));
+console.log(generate('892h@fsdf11ks8sk^2h8s8shfs.jk39hsoi@hohskd'));
 
 /* result
 {
@@ -68,9 +68,13 @@ This module is meant to help in the generation of Ethereum accounts. It serves a
 ## Method API
 
 ```
-generate <Function (String) : (Object)>
-getAddress <Function (String) : (String)>
-getChecksumAddress <Function (String) : (String)>
+generate             <Function (String) : (Object)>
+getAddress           <Function (String) : (String)>
+getChecksumAddress   <Function (String) : (String)>
+sha3                 <Function (String, Boolean) : (String)>
+privateToPublic      <Function (String) : (Object)>
+privateToAccount     <Function (String) : (Object)>
+publicToAddress      <Function (Object) : (String)>
 ```
 
 ## Contributing
