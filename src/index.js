@@ -64,7 +64,8 @@ function privateToPublic(privateKey) {
   if (typeof privateKey !== 'string') { throw new Error(`[ethjs-account] private key must be type String, got ${typeof(privateKey)}`); }
   if (!privateKey.match(/^(0x)?[0-9a-fA-F]{64}$/)) { throw new Error('[ethjs-account] private key must be an alphanumeric hex string that is 32 bytes long.'); }
 
-  return (new Buffer(secp256k1.keyFromPrivate(new Buffer(privateKey.slice(2), 'hex')).getPublic(false, 'hex'), 'hex')).slice(1);
+  const privateKeyBuffer = new Buffer(/^0x/.test(privateKey) ? privateKey.slice(2) : privateKey, 'hex');
+  return (new Buffer(secp256k1.keyFromPrivate(privateKeyBuffer).getPublic(false, 'hex'), 'hex')).slice(1);
 }
 
 /**
