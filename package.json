@@ -96,7 +96,7 @@
   },
   "dependencies": {
     "ethjs-sha3": "0.1.2",
-    "randombytes": "2.0.3",
+    "randomhex": "0.1.5",
     "elliptic": "6.3.2"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 const elliptic = require('elliptic');
 const sha3 = require('ethjs-sha3');
-const randomBytes = require('randombytes');
+const randomhex = require('randomhex');
 const secp256k1 = new (elliptic.ec)('secp256k1'); // eslint-disable-line
 const getChecksumAddress = require('./getChecksumAddress.js');
 
@@ -111,7 +111,7 @@ function generate(entropy) {
   if (typeof entropy !== 'string') { throw new Error(`[ethjs-account] while generating account, invalid input type: '${typeof(entropy)}' should be type 'String'.`); }
   if (entropy.length < 32) { throw new Error(`[ethjs-account] while generating account, entropy value not random and long enough, should be at least 32 characters of random information, is only ${entropy.length}`); }
 
-  return privateToAccount(sha3(`${randomBytes(16)}${sha3(`${randomBytes(32)}${entropy}`)}${randomBytes(32)}`));
+  return privateToAccount(sha3(`${randomhex(16)}${sha3(`${randomhex(32)}${entropy}`)}${randomhex(32)}`));
 }
 
 // exports
