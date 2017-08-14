@@ -44,6 +44,13 @@ describe('ethjs-account', () => {
       assert.throws(() => privateToAccount(''), Error);
     });
 
+    it('should prodice the same keys given a prefixed and non prefixed private key', () => {
+      const privateKey = '0xccb36826fbd5192c10bba496af42906a7e3b91f87a0ae803e79113fa88c5432c';
+      const privateKey2 = 'ccb36826fbd5192c10bba496af42906a7e3b91f87a0ae803e79113fa88c5432c';
+      assert.deepEqual(privateToPublic(privateKey2), privateToPublic(privateKey));
+      assert.deepEqual(privateToAccount(privateKey2), privateToAccount(privateKey));
+    });
+
     it('should function normally', () => {
       const testAccount = privateToAccount(sha3('sfddskj'));
 

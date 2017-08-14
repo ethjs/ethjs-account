@@ -3,6 +3,7 @@ const sha3 = require('ethjs-sha3');
 const randomhex = require('randomhex');
 const secp256k1 = new (elliptic.ec)('secp256k1'); // eslint-disable-line
 const getChecksumAddress = require('./getChecksumAddress.js');
+const stripHexPrefix = require('strip-hex-prefix');
 
 
 /**
@@ -64,7 +65,7 @@ function privateToPublic(privateKey) {
   if (typeof privateKey !== 'string') { throw new Error(`[ethjs-account] private key must be type String, got ${typeof(privateKey)}`); }
   if (!privateKey.match(/^(0x)?[0-9a-fA-F]{64}$/)) { throw new Error('[ethjs-account] private key must be an alphanumeric hex string that is 32 bytes long.'); }
 
-  const privateKeyBuffer = new Buffer(/^0x/.test(privateKey) ? privateKey.slice(2) : privateKey, 'hex');
+  const privateKeyBuffer = new Buffer(stripHexPrefix(privateKey), 'hex');
   return (new Buffer(secp256k1.keyFromPrivate(privateKeyBuffer).getPublic(false, 'hex'), 'hex')).slice(1);
 }
 
@@ -94,7 +95,7 @@ function privateToAccount(privateKey) {
   const publicKey = privateToPublic(privateKey, true);
 
   return {
-    privateKey,
+    privateKey: `0x${stripHexPrefix(privateKey)}`,
     publicKey: `0x${publicKey.toString('hex')}`,
     address: publicToAddress(publicKey),
   };

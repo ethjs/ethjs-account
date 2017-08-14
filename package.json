@@ -1,6 +1,6 @@
 {
   "name": "ethjs-account",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple Ethereum account utility module.",
   "main": "lib/index.js",
   "files": [
@@ -65,22 +65,52 @@
   "homepage": "https://github.com/ethjs/ethjs-account#readme",
   "babel": {
     "plugins": [
-      ["transform-es2015-template-literals", { "loose": true }],
+      [
+        "transform-es2015-template-literals",
+        {
+          "loose": true
+        }
+      ],
       "transform-es2015-literals",
       "transform-es2015-function-name",
       "transform-es2015-arrow-functions",
       "transform-es2015-block-scoped-functions",
-      ["transform-es2015-classes", { "loose": true }],
+      [
+        "transform-es2015-classes",
+        {
+          "loose": true
+        }
+      ],
       "transform-es2015-object-super",
       "transform-es2015-shorthand-properties",
-      ["transform-es2015-computed-properties", { "loose": true }],
-      ["transform-es2015-for-of", { "loose": true }],
+      [
+        "transform-es2015-computed-properties",
+        {
+          "loose": true
+        }
+      ],
+      [
+        "transform-es2015-for-of",
+        {
+          "loose": true
+        }
+      ],
       "transform-es2015-sticky-regex",
       "transform-es2015-unicode-regex",
       "check-es2015-constants",
-      ["transform-es2015-spread", { "loose": true }],
+      [
+        "transform-es2015-spread",
+        {
+          "loose": true
+        }
+      ],
       "transform-es2015-parameters",
-      ["transform-es2015-destructuring", { "loose": true }],
+      [
+        "transform-es2015-destructuring",
+        {
+          "loose": true
+        }
+      ],
       "transform-es2015-block-scoping",
       "transform-object-rest-spread",
       "transform-es3-member-expression-literals",
@@ -89,15 +119,21 @@
     "env": {
       "commonjs": {
         "plugins": [
-          ["transform-es2015-modules-commonjs", { "loose": true }]
+          [
+            "transform-es2015-modules-commonjs",
+            {
+              "loose": true
+            }
+          ]
         ]
       }
     }
   },
   "dependencies": {
+    "elliptic": "6.3.2",
     "ethjs-sha3": "0.1.2",
     "randomhex": "0.1.5",
-    "elliptic": "6.3.2"
+    "strip-hex-prefix": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "6.18.0",
@@ -133,7 +169,6 @@
     "json-loader": "0.5.4",
     "rimraf": "2.3.4",
     "cross-env": "1.0.7",
-
     "chai": "3.5.0",
     "coveralls": "2.11.9",
     "js-sha3": "0.5.5",
