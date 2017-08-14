@@ -64,7 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 39);
+/******/ 	return __webpack_require__(__webpack_require__.s = 41);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 var elliptic = exports;
 
-elliptic.version = __webpack_require__(32).version;
+elliptic.version = __webpack_require__(33).version;
 elliptic.utils = __webpack_require__(24);
 elliptic.rand = __webpack_require__(10);
 elliptic.hmacDRBG = __webpack_require__(22);
@@ -3520,7 +3520,7 @@ elliptic.eddsa = __webpack_require__(19);
   };
 })(typeof module === 'undefined' || module, this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)(module)))
 
 /***/ },
 /* 2 */
@@ -3560,7 +3560,7 @@ hash.ripemd160 = hash.ripemd.ripemd160;
 
 var base64 = __webpack_require__(9)
 var ieee754 = __webpack_require__(30)
-var isArray = __webpack_require__(31)
+var isArray = __webpack_require__(32)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -5338,7 +5338,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3).Buffer, __webpack_require__(36)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3).Buffer, __webpack_require__(38)))
 
 /***/ },
 /* 4 */
@@ -5695,9 +5695,10 @@ module.exports = sha3;
 
 var elliptic = __webpack_require__(0);
 var sha3 = __webpack_require__(6);
-var randomhex = __webpack_require__(35);
+var randomhex = __webpack_require__(36);
 var secp256k1 = new elliptic.ec('secp256k1'); // eslint-disable-line
 var getChecksumAddress = __webpack_require__(8);
+var stripHexPrefix = __webpack_require__(37);
 
 /**
  * Get the address from a public key
@@ -5764,7 +5765,7 @@ function privateToPublic(privateKey) {
     throw new Error('[ethjs-account] private key must be an alphanumeric hex string that is 32 bytes long.');
   }
 
-  var privateKeyBuffer = new Buffer(/^0x/.test(privateKey) ? privateKey.slice(2) : privateKey, 'hex');
+  var privateKeyBuffer = new Buffer(stripHexPrefix(privateKey), 'hex');
   return new Buffer(secp256k1.keyFromPrivate(privateKeyBuffer).getPublic(false, 'hex'), 'hex').slice(1);
 }
 
@@ -5796,7 +5797,7 @@ function privateToAccount(privateKey) {
   var publicKey = privateToPublic(privateKey, true);
 
   return {
-    privateKey: privateKey,
+    privateKey: '0x' + stripHexPrefix(privateKey),
     publicKey: '0x' + publicKey.toString('hex'),
     address: publicToAddress(publicKey)
   };
@@ -6043,7 +6044,7 @@ if (typeof window === 'object') {
 } else {
   // Node.js or Web worker
   try {
-    var crypto = __webpack_require__(38);
+    var crypto = __webpack_require__(40);
 
     Rand.prototype._rand = function _rand(n) {
       return crypto.randomBytes(n);
@@ -11341,6 +11342,25 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 /* 31 */
 /***/ function(module, exports) {
 
+/**
+ * Returns a `Boolean` on whether or not the a `String` starts with '0x'
+ * @param {String} str the string input value
+ * @return {Boolean} a boolean if it is or is not hex prefixed
+ * @throws if the str input is not a string
+ */
+module.exports = function isHexPrefixed(str) {
+  if (typeof str !== 'string') {
+    throw new Error("[is-hex-prefixed] value must be type 'string', is currently type " + (typeof str) + ", while checking isHexPrefixed.");
+  }
+
+  return str.slice(0, 2) === '0x';
+}
+
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
@@ -11349,7 +11369,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 module.exports = {
@@ -11474,23 +11494,23 @@ module.exports = {
 };
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 module.exports = window.crypto;
 
 /***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(33);
-
-/***/ },
 /* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(34);
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
 var randomHex = function(size, callback) {
-    var crypto = __webpack_require__(34);
+    var crypto = __webpack_require__(35);
     var isCallback = (typeof callback === 'function');
 
     
@@ -11556,7 +11576,27 @@ module.exports = randomHex;
 
 
 /***/ },
-/* 36 */
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+var isHexPrefixed = __webpack_require__(31);
+
+/**
+ * Removes '0x' from a given `String` is present
+ * @param {String} str the string value
+ * @return {String|Optional} a string by pass if necessary
+ */
+module.exports = function stripHexPrefix(str) {
+  if (typeof str !== 'string') {
+    return str;
+  }
+
+  return isHexPrefixed(str) ? str.slice(2) : str;
+}
+
+
+/***/ },
+/* 38 */
 /***/ function(module, exports) {
 
 var g;
@@ -11581,7 +11621,7 @@ module.exports = g;
 
 
 /***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports) {
 
 module.exports = function(module) {
@@ -11607,13 +11647,13 @@ module.exports = function(module) {
 
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports) {
 
 /* (ignored) */
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(7);
