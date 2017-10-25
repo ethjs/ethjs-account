@@ -1,3 +1,11 @@
+/*
+Primary Attribution
+Richard Moore <ricmoo@me.com>
+https://github.com/ethers-io
+
+Note, Richard is a god of ether gods. Follow and respect him, and use Ethers.io!
+*/
+
 const elliptic = require('elliptic');
 const sha3 = require('ethjs-sha3');
 const randomhex = require('randomhex');
