@@ -39,8 +39,6 @@
 
 A simple Ethereum account utility module.
 
-This module does not have EIP155 replay protection, do not use until it is upgraded.
-
 Warning: if using with React Native, please use a pre-build distribution (i.e. npm run buld -> /dist/..). We will be switching to the Sepcc256k1 module which should resolve this issue.
 
 ## Install
