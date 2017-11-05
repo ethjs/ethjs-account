@@ -120,7 +120,7 @@ We communicate via [issues](https://github.com/ethjs/ethjs-account/issues) and [
 
 ## Licence
 
-This project is licensed under the MIT license, Copyright (c) 2016 Nick Dodson. For more information see LICENSE.md.
+This project is licensed under the MIT license, Copyright (c) 2016 Nick Dodson/2014 Richard Moore. For more information see LICENSE.md.
 
 ```
 The MIT License (MIT)
