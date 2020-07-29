@@ -130,7 +130,7 @@
     }
   },
   "dependencies": {
-    "elliptic": "6.3.2",
+    "elliptic": "6.5.3",
     "ethjs-sha3": "0.1.2",
     "randomhex": "0.1.5",
     "strip-hex-prefix": "^1.0.0"
